@@ -71,7 +71,7 @@ namespace JVSLib_BG4FFB.Src
             else { ffb.Send(0x00, 0x00); }
         }
 
-        public void SetSpringCenter(byte position)   //TODO: This is super tempermental if SetSteeringRadius is not set!!!
+        public void SetRollForce(byte position)   //TODO: This is super tempermental if SetSteeringRadius is not set!!!
                                                      //NOTE: Game always sets this to halfway (0x80)
         {
             if (usePolling)
@@ -81,7 +81,7 @@ namespace JVSLib_BG4FFB.Src
             else { ffb.Send(0x01, position); }
         }
 
-        public void SetResistanceForce(byte force)  //Used by game, also used during init procedure
+        public void SetFrictionForce(byte force)  //Used by game, also used during init procedure
         {
             if (usePolling)
             {
@@ -90,7 +90,7 @@ namespace JVSLib_BG4FFB.Src
             else { ffb.Send(0x02, force); }
         }
 
-        public void SetCenterForce(byte force)  //TODO: This can have a different effect depending on commands before it? Investigate before use!
+        public void SetSpringForce(byte force)  //TODO: This can have a different effect depending on commands before it? Investigate before use!
         {
             if (usePolling)
             {
@@ -99,7 +99,7 @@ namespace JVSLib_BG4FFB.Src
             else { ffb.Send(0x03, force); }
         }
 
-        public void SetWeakerResistanceForce(byte force)  //Used by game, also used during init procedure, Why is it weaker??? Does it actually do this?
+        public void SetFrictionForce2(byte force)  //Used by game, also used during init procedure, Why is it weaker??? Does it actually do this? (Something makes it weaker unsure what, global strength applies to both)
         {
             if (usePolling)
             {
@@ -126,7 +126,7 @@ namespace JVSLib_BG4FFB.Src
             else { ffb.Send(0x06, strength); }
         }
 
-        public void SetGlobalStrength(byte strength)  //Used after calibration during init, param is normally 7F, pretty sure this is global strength, could be something else, but it affects all commands
+        public void SetGlobalStrength(byte strength)  //Used after calibration during init, param is normally 7F, pretty sure this is global strength, could be something else, but it affects all commands APART FROM RUMBLE, SIGNED BYTE
         {
             if (usePolling)
             {
@@ -172,7 +172,7 @@ namespace JVSLib_BG4FFB.Src
             return false;
         }
 
-        public void SetSpringCenter_NoFling(byte param)  //Used by game, also used during init procedure
+        public void SetSpringCenter(byte param)  //Used by game, also used during init procedure, SOMETHING SETS THE SPEED FOR THIS! Its a smooth transition to the new target pos
         {
             if (usePolling)
             {
@@ -181,7 +181,7 @@ namespace JVSLib_BG4FFB.Src
             else { ffb.Send(0x0D, param); }
         }
 
-        public void UnknownOperation_0E(byte param)  //Used after calibration during init, param is normally 3
+        public void SetSpringCenterRadius(byte param)  //Used after calibration during init, param is normally 3, unsure 100% but BE CAREFUL WITH THIS COMMAND! It can cause values from setCenter to be out of range and motor will keep ramping up power even when hitting the stopper, dont burn out your motor/board :P
         {
             if (usePolling)
             {
